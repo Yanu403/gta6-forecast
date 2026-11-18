@@ -48,36 +48,40 @@ FALLBACK_SIGMA = 0.18
 
 # hour -> (median ratio to hour 1, lower-tail log scale, upper-tail log scale)
 #
-# Fitted by leave-one-out over the comparable launches that share GTA VI's launch profile:
-# a weighted median shape with a profile-distance bandwidth of 0.12, and per-hour tail
-# scales from the held-out residuals. On those held-out launches it scores a mean pinball
-# loss of 0.129 at 89% coverage of the 5-95% band, against the house baseline's 0.387 at
-# 78%. The optimum is flat: moving the bandwidth or the scale by 10% moves the loss by
-# under 0.003, so these numbers are not tuned to one split.
+# The median shape is a profile-weighted median over comparable console launches; the tail
+# scales come from their held-out residuals, already widened by a single factor so the 5-95%
+# band actually covers nine hours in ten.
+#
+# On a dev grade of the four practice launches that share GTA VI's rolling-midnight console
+# profile, the narrower band this started from covered only 0.68 of scored hours. Widening it
+# is not a hedge: on the comparable launches, widening from 1.0x to 2.2x cut the mean pinball
+# loss from 0.328 to 0.286 while lifting coverage from 0.48 to 0.91. Under a proper scoring
+# rule a band that is too narrow is paid for on every hour that falls outside it, so the
+# honest spread is also the cheaper one.
 TABLE = {
-    2: (0.8980, 0.128, 0.195),
-    3: (0.7914, 0.237, 0.276),
-    4: (0.7728, 0.342, 0.289),
-    5: (0.8684, 0.434, 0.317),
-    6: (1.0692, 0.511, 0.299),
-    7: (0.9789, 0.445, 0.347),
-    8: (0.9422, 0.362, 0.332),
-    9: (0.8817, 0.306, 0.373),
-    10: (0.8486, 0.219, 0.380),
-    11: (0.8843, 0.253, 0.322),
-    12: (0.9270, 0.282, 0.305),
-    13: (1.1358, 0.250, 0.244),
-    14: (1.3133, 0.250, 0.227),
-    15: (1.5183, 0.313, 0.199),
-    16: (1.6524, 0.339, 0.219),
-    17: (1.7707, 0.290, 0.202),
-    18: (1.9506, 0.261, 0.208),
-    19: (2.0489, 0.287, 0.171),
-    20: (2.2451, 0.263, 0.135),
-    21: (2.2534, 0.193, 0.129),
-    22: (2.1753, 0.176, 0.125),
-    23: (2.0980, 0.156, 0.180),
-    24: (1.9023, 0.241, 0.292),
+    2: (0.8980, 0.282, 0.429),
+    3: (0.7914, 0.521, 0.607),
+    4: (0.7728, 0.752, 0.636),
+    5: (0.8684, 0.955, 0.697),
+    6: (1.0692, 1.124, 0.658),
+    7: (0.9789, 0.979, 0.763),
+    8: (0.9422, 0.796, 0.730),
+    9: (0.8817, 0.673, 0.821),
+    10: (0.8486, 0.482, 0.836),
+    11: (0.8843, 0.557, 0.708),
+    12: (0.9270, 0.620, 0.671),
+    13: (1.1358, 0.550, 0.537),
+    14: (1.3133, 0.550, 0.499),
+    15: (1.5183, 0.689, 0.438),
+    16: (1.6524, 0.746, 0.482),
+    17: (1.7707, 0.638, 0.444),
+    18: (1.9506, 0.574, 0.458),
+    19: (2.0489, 0.631, 0.376),
+    20: (2.2451, 0.579, 0.297),
+    21: (2.2534, 0.425, 0.284),
+    22: (2.1753, 0.387, 0.275),
+    23: (2.0980, 0.343, 0.396),
+    24: (1.9023, 0.530, 0.642),
 }
 
 
